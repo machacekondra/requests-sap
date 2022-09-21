@@ -38,7 +38,7 @@ class SAPAuth(AuthBase):
 
         cookies = dict()
         for r in history:
-            cookies = cookies | dict(r.cookies.items())
+            cookies.update(dict(r.cookies.items()))
 
         next_response = requests.post(
             next_url,
