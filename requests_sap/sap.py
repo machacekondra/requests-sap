@@ -27,7 +27,7 @@ class SAPAuth(AuthBase):
         self._username = username
         self._password = password
 
-    def _next_step(self, response, history, next_url=None, **kwargs):
+    def _next_step(self, response, history, next_url=None, headers=None, **kwargs):
         if next_url is None:
             next_url = self.get_next_url(response.text)
 
@@ -44,6 +44,7 @@ class SAPAuth(AuthBase):
             next_url,
             data=post_data,
             cookies=cookies,
+            headers=headers,
         )
 
         history.append(next_response)
@@ -57,8 +58,9 @@ class SAPAuth(AuthBase):
         # We need to pass the next_url explicitly, because the response only contains relative URL for some reason:
         response = self._next_step(response, history, next_url=self.sso_url, j_password=self._password)
         response = self._next_step(response, history)
-        return self._next_step(response, history)
+        return self._next_step(response, history, headers=self._headers)
 
     def __call__(self, request):
         request.register_hook('response', self.handle_response)
+        self._headers = request.headers
         return request

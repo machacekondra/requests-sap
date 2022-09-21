@@ -1,3 +1,4 @@
+import json
 import os
 import requests
 
@@ -9,4 +10,5 @@ r = requests.get(
     headers={'Accept': 'application/json'}
 )
 
-print(r.text)
+data = json.loads(r.text)
+print(data['d']['Title'] + ' is ' + data['d']['Status'])
