@@ -1,6 +1,6 @@
 [project]
 name = "requests-sap"
-version = "0.0.5"
+version = "0.0.6"
 authors = [
   { name="Ondra Machacek", email="machacek.ondra@gmail.com" },
 ]
